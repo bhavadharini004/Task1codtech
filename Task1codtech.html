@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        #quiz-container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #333;
+        }
+        .option {
+            display: block;
+            margin: 10px auto;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            width: 80%;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .option:hover {
+            background: #0056b3;
+        }
+        .correct {
+            background: #28a745 !important;
+        }
+        .wrong {
+            background: #dc3545 !important;
+        }
+        #feedback {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #score {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #333;
+        }
+        button {
+            background: #ff9800;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e68900;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h2 id="question">Question will appear here</h2>
+        <div id="options"></div>
+        <p id="feedback"></p>
+        <button onclick="nextQuestion()">Next</button>
+        <p id="score">Score: 0</p>
+    </div>
+
+    <script>
+        const quizData = [
+            { 
+                question: "What is the capital of France?", 
+                options: ["Berlin", "Madrid", "Paris", "Rome"], 
+                answer: "Paris" 
+            },
+            { 
+                question: "What is 5 + 3?", 
+                options: ["5", "8", "12", "15"], 
+                answer: "8" 
+            },
+            { 
+                question: "Who wrote 'Hamlet'?", 
+                options: ["Shakespeare", "Hemingway", "Tolkien", "Austen"], 
+                answer: "Shakespeare" 
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const quiz = quizData[currentQuestion];
+            document.getElementById("question").innerText = quiz.question;
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            quiz.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.className = "option";
+                button.onclick = () => checkAnswer(button, option);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(button, selected) {
+            const correct = quizData[currentQuestion].answer;
+            const buttons = document.querySelectorAll(".option");
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selected === correct) {
+                button.classList.add("correct");
+                score++;
+                document.getElementById("feedback").innerText = "✅ Correct!";
+            } else {
+                button.classList.add("wrong");
+                document.getElementById("feedback").innerText = "❌ Wrong! Correct answer: " + correct;
+            }
+
+            document.getElementById("score").innerText = "Score: " + score;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                document.getElementById("feedback").innerText = "";
+                loadQuestion();
+            } else {
+                document.getElementById("quiz-container").innerHTML = `<h2>🎉 Quiz Completed!</h2><p>Your final score: ${score}/${quizData.length}</p>`;
+            }
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
