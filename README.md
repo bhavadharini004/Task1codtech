@@ -17,5 +17,6 @@ An interactive quiz application using JavaScript is an excellent tool for engagi
 
 # OUTPUT OF THE TASK:
 
+![Image](https://github.com/user-attachments/assets/17690b9a-c50e-458b-9fa7-d57541276e70)
 ![Image](https://github.com/user-attachments/assets/662dc23b-d954-4b0f-b706-a5bc1cfa6728)
 
